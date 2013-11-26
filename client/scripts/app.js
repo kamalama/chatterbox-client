@@ -6,11 +6,9 @@ var getMessage = $.ajax({
   contentType: 'application/json',
   success: function (data) {
     displayMessages();
-    // console.log(parsedMessages());
   },
   error: function (data) {
-    // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-    console.error('chatterbox: Failed to send message');
+    console.error('chatterbox: Failed to get Message');
   }
 });
 
@@ -23,19 +21,8 @@ var parsedMessages = function() {
 var displayMessages = function() {
   // iterate over the object with responses
   var messages = parsedMessages();
-  for (var i = 0; i < 10; i++){
-    $(".messages").append("<li>" + messages[i].text + "</li>");
+  for (var i = 0; i < messages.length; i++){
+    $(".messages").append(Remove.js("<li>" + messages[i].text + "</li>"));
   }
 };
 
-//   //console.log(JSON.parse(getMessage.responseText));
-
-// var messages = getMessage.responseJSON;
-// console.log(messages)
-
-
-
-
-
-//append a new div to the body with the class "messages"
-//use jQuery to append the messages to the ".messages" div as UL.
