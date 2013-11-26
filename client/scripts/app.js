@@ -1,7 +1,6 @@
 // YOUR CODE HERE:
 //ajax call to parse server to fetch messages
 var getMessage = $.ajax({
-  // always use this url
   url: 'https://api.parse.com/1/classes/chatterbox?order=-createdAt',
   type: 'GET',
   contentType: 'application/json',
@@ -36,4 +35,45 @@ var displayMessages = function() {
 };
 //runs displayMessages every 5 seconds to get any new messages
 setInterval(displayMessages, 5000);
+
+
+var messagePackager = function(message) {
+
+  var usernameSlicer = function() {
+    var nameSection = window.location.search;
+    nameSection.slice(nameSection.indexOf("="));
+    return nameSection;
+  };
+
+  var messageObject = {
+    //"createdAt": Date.getTime(),
+    // "objectID":
+    //"roomname": "lobby",
+    "text": message,
+    //"username": usernameSlicer()
+  };
+
+  return messageObject;
+};
+
+var sendMessages = function(messageObj){
+  $.ajax({
+    // always use this url
+    url: 'https://api.parse.com/1/classes/chatterbox',
+    type: 'POST',
+    data: JSON.stringify(messageObj),
+    contentType: 'application/json',
+    success: function (data) {
+      console.log('chatterbox: Message sent');
+    },
+    error: function (data) {
+      // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
+      console.error('chatterbox: Failed to send message');
+    }
+  });
+};
+
+// sendMessages({'this': 'is a message'});
+
+//$('.submitButton').on('click', sendMessages('.submitText'));
 
