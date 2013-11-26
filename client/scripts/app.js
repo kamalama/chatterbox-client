@@ -1,5 +1,6 @@
 // YOUR CODE HERE:
 //ajax call to parse server to fetch messages
+
 var getMessage = $.ajax({
   url: 'https://api.parse.com/1/classes/chatterbox?order=-createdAt',
   type: 'GET',
@@ -34,7 +35,7 @@ var displayMessages = function() {
   }
 };
 //runs displayMessages every 5 seconds to get any new messages
-setInterval(displayMessages, 5000);
+setInterval(displayMessages, 2000);
 
 
 var messagePackager = function(message) {
@@ -53,14 +54,15 @@ var messagePackager = function(message) {
 
   return messageObject;
 };
+// var messageToSend = messagePackager( $('.messageText').val() ); // this is where the error occurs
+// console.log(messagePackager( $('.messageText').val() ));
 
-var messageToSend = messagePackager("Always be yourself, unless you can be a Unicorn. Then be a Unicorn.");
-var sendMessages = function(messageToSend){
+var sendMessages = function(message){
   $.ajax({
     // always use this url
     url: 'https://api.parse.com/1/classes/chatterbox',
     type: 'POST',
-    data: JSON.stringify(messageToSend),
+    data: JSON.stringify(message),
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
@@ -72,10 +74,11 @@ var sendMessages = function(messageToSend){
   });
 };
 
-
 $(document).ready(function() {
   $('.submitButton').click(function(){
-    sendMessages(messageToSend)
+    debugger;
+    sendMessages(messagePackager( $('.messageText').val() ))
+    $('.messageText').val("");
   });
 });
 
