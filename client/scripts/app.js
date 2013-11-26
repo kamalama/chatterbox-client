@@ -54,7 +54,7 @@ var messagePackager = function(message) {
   return messageObject;
 };
 
-var messageToSend = messagePackager('THIS IS A MESSAGE');
+var messageToSend = messagePackager("Always be yourself, unless you can be a Unicorn. Then be a Unicorn.");
 var sendMessages = function(messageToSend){
   $.ajax({
     // always use this url
@@ -72,7 +72,10 @@ var sendMessages = function(messageToSend){
   });
 };
 
-sendMessages(messageToSend);
 
-//$('.submitButton').on('click', sendMessages('.submitText'));
+$(document).ready(function() {
+  $('.submitButton').click(function(){
+    sendMessages(messageToSend)
+  });
+});
 
