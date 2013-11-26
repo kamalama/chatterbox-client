@@ -22,8 +22,8 @@ var displayMessages = function() {
   //if there are no messages, append the messages to the DOM
   if($("li").length === 0) {
     for (var i = 0; i < 30; i++){
-      $(".messages").append(Remove.js("<li>" + messages[i].username.slice(0,10) + ': '
-        + messages[i].text.slice(0,140) + " sent at: " + messages[i].createdAt + "</li>"));
+      $(".messages").append(Remove.js("<li>" + messages[i].username + ': '
+        + messages[i].text + " sent at: " + messages[i].createdAt + "</li>"));
     }
     //otherwise, update existing elements
   } else {
@@ -41,27 +41,26 @@ var messagePackager = function(message) {
 
   var usernameSlicer = function() {
     var nameSection = window.location.search;
-    nameSection.slice(nameSection.indexOf("="));
-    return nameSection;
+    var name = nameSection.slice(nameSection.indexOf("=")+1);
+    return name;
   };
 
   var messageObject = {
-    //"createdAt": Date.getTime(),
-    // "objectID":
-    //"roomname": "lobby",
+    "roomname": "lobby",
     "text": message,
-    //"username": usernameSlicer()
+    "username": usernameSlicer()
   };
 
   return messageObject;
 };
 
-var sendMessages = function(messageObj){
+var messageToSend = messagePackager('THIS IS A MESSAGE');
+var sendMessages = function(messageToSend){
   $.ajax({
     // always use this url
     url: 'https://api.parse.com/1/classes/chatterbox',
     type: 'POST',
-    data: JSON.stringify(messageObj),
+    data: JSON.stringify(messageToSend),
     contentType: 'application/json',
     success: function (data) {
       console.log('chatterbox: Message sent');
@@ -73,7 +72,7 @@ var sendMessages = function(messageObj){
   });
 };
 
-// sendMessages({'this': 'is a message'});
+sendMessages(messageToSend);
 
 //$('.submitButton').on('click', sendMessages('.submitText'));
 
