@@ -1,24 +1,24 @@
 // YOUR CODE HERE:
 //ajax call to parse server to fetch messages
 
-var getMessage = $.ajax({
-  url: 'https://api.parse.com/1/classes/chatterbox?order=-createdAt',
-  type: 'GET',
-  contentType: 'application/json',
-  //once messages are returned from the server, runs displayMessages, otherwise
-  //responseJSON can't be called on the undefined getMessages object
-  success: function (data) {
-    displayMessages();
-  },
-  error: function (data) {
-    console.error('chatterbox: Failed to get Message');
-  }
-});
+var getMessage = function() {
+  $.ajax({
+    url: 'https://api.parse.com/1/classes/chatterbox?order=-createdAt',
+    type: 'GET',
+    contentType: 'application/json',
+    //once messages are returned from the server, runs displayMessages, otherwise
+    //responseJSON can't be called on the undefined getMessages object
+    success: displayMessages,
+    error: function (data) {
+      console.error('chatterbox: Failed to get Message');
+    }
+  });
+};
 
-
-var displayMessages = function() {
+var displayMessages = function(data) {
   //save parsed messages into a usable array
-  var messages = getMessage.responseJSON.results;
+  var messages = data.results;
+
   // iterate over the object with responses
   //if there are no messages, append the messages to the DOM
   if($("li").length === 0) {
@@ -28,9 +28,9 @@ var displayMessages = function() {
     }
     //otherwise, update existing elements
   } else {
-    for (var i = 0; i < 30; i++){
-      $( "ul li:nth-last-child("+ i +")" ).replaceWith(Remove.js("<li>" + messages[i].username + ': '
-          + messages[i].text + " sent at: " + messages[i].createdAt + "</li>"));
+    for (var i = 29; i >= 0; i--){
+      (Remove.js("<li>" + messages[i].username + ': '+ messages[i].text + " sent at: " +
+        messages[i].createdAt + "</li>")).replaceAll(($("li")[i]));
     }
   }
 };
@@ -79,5 +79,6 @@ $(document).ready(function() {
   });
 });
 
-
+getMessage();
+setInterval(getMessage, 5000);
 
