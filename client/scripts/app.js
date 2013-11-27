@@ -18,19 +18,20 @@ var getMessage = function() {
 var displayMessages = function(data) {
   //save parsed messages into a usable array
   var messages = data.results;
+  console.log(messages);
 
 // iterate over the object with responses
-  //if there are no messages, append the messages to the DOM
+  //if there are no messages, append the messages to the DOM with class of Room Name
   if($("li").length === 0) {
     for (var i = 0; i < 30; i++){
-      $(".messages").append(Remove.js("<li>" + messages[i].username + ': '
+      $(".messages").append(Remove.js("<li class=\"" + messages[i].roomname + "\">" + messages[i].username + ': '
         + messages[i].text + " sent at: " + messages[i].createdAt + "</li>"));
     }
-    //otherwise, update existing elements
+    //otherwise, update existing elements adding class Room Name
   } else {
     for (var i = 29; i >= 0; i--){
-      (Remove.js("<li>" + messages[i].username + ': '+ messages[i].text + " sent at: " +
-        messages[i].createdAt + "</li>")).replaceAll( $("li")[i] ); // replaces 'li' element at index i
+      (Remove.js("<li class=\"" + messages[i].roomname + "\">" + messages[i].username + ': '
+        + messages[i].text + " sent at: " + messages[i].createdAt + "</li>")).replaceAll( $("li")[i] ); // replaces 'li' element at index i
     }
   }
 };
@@ -97,6 +98,8 @@ setInterval(getMessage, 5000); // refreshes messages every 5 seconds
       //add ?roomName=roomName to URL
       //filter messages for specific rooms
       //let them know what room they're in
+      //link to go back to the lobby
+      //any messages from that room get a class name with that room
 
 
 
@@ -106,7 +109,7 @@ setInterval(getMessage, 5000); // refreshes messages every 5 seconds
       //add ?roomName=roomName to URL
       //move person to room by filtering
       //let them know what room they're in
-      //any message they have gets a class that is the room. noRoom if there isn't one
+      //any message they have gets a class that is the room. Lobby if there isn't one
 
 
 
