@@ -34,8 +34,7 @@ var displayMessages = function() {
     }
   }
 };
-//runs displayMessages every 5 seconds to get any new messages
-setInterval(displayMessages, 2000);
+
 
 
 var messagePackager = function(message) {
@@ -54,8 +53,7 @@ var messagePackager = function(message) {
 
   return messageObject;
 };
-// var messageToSend = messagePackager( $('.messageText').val() ); // this is where the error occurs
-// console.log(messagePackager( $('.messageText').val() ));
+
 
 var sendMessages = function(message){
   $.ajax({
@@ -76,9 +74,10 @@ var sendMessages = function(message){
 
 $(document).ready(function() {
   $('.submitButton').click(function(){
-    debugger;
     sendMessages(messagePackager( $('.messageText').val() ))
     $('.messageText').val("");
   });
 });
+
+
 
